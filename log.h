@@ -4,14 +4,10 @@
 #ifndef __LOG_H_
 #define __LOG_H_
 
-#define LOG_LOG(tag, fmt, ...) NSLog((@"[%c] %s:%s: " fmt), tag, __func__, mach_error_string(ret), ##__VA_ARGS__)
+#define LOG_LOG(tag, fmt, ...) NSLog((@"[%c] %s: " fmt), tag, __func__, ##__VA_ARGS__)
+#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
-#ifdef NDEBUG
-#define DEBUG_LOG(fmt, ...)
-#define ERROR_LOG(fmt, ...)
-#else
 #define DEBUG_LOG(fmt, ...) LOG_LOG('+', fmt, ##__VA_ARGS__)
 #define ERROR_LOG(fmt, ...) LOG_LOG('-', fmt, ##__VA_ARGS__)
-#endif /* NDEBUG */
 
 #endif /* __LOG_H_ */
