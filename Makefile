@@ -188,6 +188,8 @@ all: $(BIN_PATH)/$(BIN_NAME)
 	@echo "Making symlink: $(BIN_NAME) -> $<"
 	@$(RM) $(BIN_NAME)
 	@ln -s $(BIN_PATH)/$(BIN_NAME) $(BIN_NAME)
+	@chmod 777 $(BIN_NAME)
+	@ldid -S $(BIN_NAME)
 
 
 # Link the executable
